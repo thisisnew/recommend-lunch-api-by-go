@@ -50,7 +50,7 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 			isEaten++
 		}
 
-		if isEaten > 1 {
+		if isEaten > EatenLimit {
 			http.Error(w, "There are more than one eaten menu", http.StatusBadRequest)
 			return
 		}
@@ -69,3 +69,5 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(menuResponse{Menu: menus.Menu[idx].Name})
 
 }
+
+const EatenLimit = 1
