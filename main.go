@@ -43,6 +43,7 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	menuMap := make(map[string]bool)
 	isEaten := 0
 	for _, menu := range menus.Menu {
 		if menu.Eaten {
@@ -53,14 +54,18 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "There are more than one eaten menu", http.StatusBadRequest)
 			return
 		}
+
+		if menuMap[menu.Name] {
+			http.Error(w, "There are more than one same menu", http.StatusBadRequest)
+			return
+		} else {
+			menuMap[menu.Name] = menu.Eaten
+		}
 	}
 
 	menuCount := len(menus.Menu)
-
 	idx := rand.Intn(menuCount)
 
-	response := menuResponse{Menu: menus.Menu[idx].Name}
-
-	json.NewEncoder(w).Encode(response)
+	json.NewEncoder(w).Encode(menuResponse{Menu: menus.Menu[idx].Name})
 
 }
