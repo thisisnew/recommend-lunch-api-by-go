@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 )
 
@@ -38,7 +39,7 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(menus.Menu) == 0 {
-		http.Error(w, "Least one menu needed", http.StatusBadRequest)
+		http.Error(w, "At least one menu needed", http.StatusBadRequest)
 		return
 	}
 
@@ -49,13 +50,17 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if isEaten > 1 {
-			http.Error(w, "More than one eaten menu", http.StatusBadRequest)
+			http.Error(w, "There are more than one eaten menu", http.StatusBadRequest)
 			return
 		}
-
 	}
 
-	var response menuResponse
+	menuCount := len(menus.Menu)
+
+	idx := rand.Intn(menuCount)
+
+	response := menuResponse{Menu: menus.Menu[idx].Name}
+
 	json.NewEncoder(w).Encode(response)
 
 }
