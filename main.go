@@ -28,7 +28,7 @@ func main() {
 	mux := pat.New()
 	mux.Post("/recommend/lunch", recommendLunch)
 	n := negroni.Classic()
-	n.Use(negroni.NewStatic(http.Dir("template")))
+	n.Use(negroni.NewStatic(http.Dir("public")))
 	n.UseHandler(mux)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), n))
 }
