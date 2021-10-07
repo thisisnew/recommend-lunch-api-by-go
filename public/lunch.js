@@ -1,15 +1,15 @@
 window.onload = function() {
     const checkAll = document.querySelector("#check-all");
-    console.log(checkAll);
-    const checkthis = document.querySelectorAll(".check-this");
-    console.log(checkthis);
+    const checks = document.querySelectorAll(".check-this");
+
     checkAll.addEventListener("click", () => {
+        let item;
         if (checkAll.checked) {
-            for(var item of checkthis){
+            for(item of checks){
                 item.checked = true;
             }
         } else {
-            for(var item of checkthis){
+            for(item of checks){
                 item.checked = false;
             }
         }
