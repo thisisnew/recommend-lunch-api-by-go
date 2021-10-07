@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = () => {
     const checkAll = document.querySelector("#check-all");
     const checks = document.querySelectorAll(".check-this");
 
