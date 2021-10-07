@@ -12,7 +12,7 @@ import (
 
 type Menu struct {
 	Name  string `json:"name"`
-	Eaten bool   `json:"eaten"`
+	Place string `json:"place"`
 }
 
 type menuListRequest struct {
@@ -20,7 +20,8 @@ type menuListRequest struct {
 }
 
 type menuResponse struct {
-	Menu string `json:"menu"`
+	Menu  string `json:"menu"`
+	Place string `json:"place"`
 }
 
 func main() {
@@ -48,30 +49,24 @@ func recommendLunch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	menuMap := make(map[string]bool)
-	isEaten := 0
 	for _, menu := range menus.Menu {
-		if menu.Eaten {
-			isEaten++
-		}
-
-		if isEaten > EatenLimit {
-			http.Error(w, "There are more than one eaten menu", http.StatusBadRequest)
-			return
-		}
-
-		if menuMap[menu.Name] {
-			http.Error(w, "There are more than one same menu", http.StatusBadRequest)
+		if menuMap[menu.Place] {
+			http.Error(w, "There are more than one same place", http.StatusBadRequest)
 			return
 		} else {
-			menuMap[menu.Name] = menu.Eaten
+			menuMap[menu.Name] = true
 		}
 	}
 
 	menuCount := len(menus.Menu)
 	idx := rand.Intn(menuCount)
 
-	json.NewEncoder(w).Encode(menuResponse{Menu: menus.Menu[idx].Name})
+	res := menuResponse{
+		Menu:  menus.Menu[idx].Name,
+		Place: menus.Menu[idx].Place,
+	}
 
+	json.NewEncoder(w).Encode(res)
 }
 
 const EatenLimit = 1
