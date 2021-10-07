@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/pat"
+	"github.com/urfave/negroni"
 	"log"
 	"math/rand"
 	"net/http"
@@ -23,10 +25,12 @@ type menuResponse struct {
 
 func main() {
 	port := "8080"
-	http.HandleFunc("/recommend/lunch", recommendLunch)
-
-	log.Printf("Server starting on port %v/n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), nil))
+	mux := pat.New()
+	mux.Post("/recommend/lunch", recommendLunch)
+	n := negroni.Classic()
+	n.Use(negroni.NewStatic(http.Dir("template")))
+	n.UseHandler(mux)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", port), n))
 }
 
 func recommendLunch(w http.ResponseWriter, r *http.Request) {
