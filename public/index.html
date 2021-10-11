@@ -111,6 +111,18 @@
             const map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
         });
     }
+
+    const url = 'http://openapi.seoul.go.kr:8088/인증키/json/LOCALDATA_072404_GA/1/5/';
+
+    fetch(url, {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json())
+        .then(response => console.log(response))
+        .catch(error => console.error('Error:', error));
+
 </script>
 </body>
 </html>
