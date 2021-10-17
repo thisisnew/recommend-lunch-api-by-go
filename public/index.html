@@ -90,13 +90,11 @@
                 data = response.LOCALDATA_072404_GA;
             }
 
-            if(data.RESULT.CODE == INFO_000){
-                console.log(data.RESULT.MESSAGE);
-
+            if(data && data.RESULT.CODE === INFO_000){
                 const list = data.row;
-
-                console.log(list);
-
+                for (let i = 0; i < list.length; i++) {
+                   console.log(list[i]);
+                }
             }
         })
         .catch(error => console.error('Error:', error));
