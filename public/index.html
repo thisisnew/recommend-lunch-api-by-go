@@ -60,7 +60,7 @@
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/scripts.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey="></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46f5d622e0614d6776d9f135378c9dc1"></script>
 <script>
     if (!navigator.geolocation) {
         alert('Geolocation is not supported by your browser');
@@ -76,14 +76,18 @@
         });
     }
 
-    const url = 'http://openapi.seoul.go.kr:8088/인증키/json/LOCALDATA_072404_GA/1/5/';
+    const url = 'http://openapi.seoul.go.kr:8088/sample/json/LOCALDATA_072404_GA/1/5/';
 
     fetch(url, {
         method: 'GET',
     }).then(res => res.json())
-        .then(response => console.log(response))
+        .then(response => {
+            console.log(response);
+            if(response.LOCALDATA_072404_GA.RESULT.CODE == 'INFO-000'){
+                console.log(response.LOCALDATA_072404_GA.RESULT.MESSAGE);
+            }
+        })
         .catch(error => console.error('Error:', error));
-
 </script>
 </body>
 </html>
