@@ -31,6 +31,7 @@
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             <div id="map"></div>
+            <div id="restaurants"></div>
             <div class="col mb-5">
                 <div class="card h-100">
                     <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
@@ -86,9 +87,11 @@
             console.log(response);
             let data;
 
-            if (LOCAL_DATA_072404_GA in response){
-                data = response.LOCALDATA_072404_GA;
+            if (!(LOCAL_DATA_072404_GA in response)){
+               return; //여기에 예외처리
             }
+
+            data = response.LOCALDATA_072404_GA;
 
             if(data && data.RESULT.CODE === INFO_000){
                 const rows = data.row;
