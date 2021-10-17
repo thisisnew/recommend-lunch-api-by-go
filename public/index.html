@@ -91,9 +91,15 @@
             }
 
             if(data && data.RESULT.CODE === INFO_000){
-                const list = data.row;
-                for (let i = 0; i < list.length; i++) {
-                   console.log(list[i]);
+                const rows = data.row;
+                for (let i = 0; i < rows.length; i++) {
+                   const row = rows[i];
+                   if (row.TRDSTATENM === CLOSED) {
+                       continue;
+                   }
+
+                   console.log(row);
+
                 }
             }
         })
