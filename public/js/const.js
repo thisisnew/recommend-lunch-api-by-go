@@ -1,2 +1,3 @@
 const LOCAL_DATA_072404_GA = 'LOCALDATA_072404_GA';
 const INFO_000 = 'INFO-000';
+const CLOSED = '폐업';
