@@ -79,42 +79,45 @@
         });
     }
 
-    const url = GWANAK_RESTAURANT_LIST_URL;
+    //if () {//위치 바운더리에 따른 다른 api call
+        getRestaurantList(GWANAK_RESTAURANT_LIST_URL);
+    //}
 
-    fetch(url, {
-        method: 'GET',
-    }).then(res => res.json())
-        .then(response => {
-            console.log(response);
-            let data;
+    function getRestaurantList(url) {
+        fetch(url, {
+            method: 'GET',
+        }).then(res => res.json())
+            .then(response => {
+                console.log(response);
+                let data;
 
-            if (!(LOCAL_DATA_072404_GA in response)) {
-                return; //여기에 예외처리
-            }
+                if (!(LOCAL_DATA_072404_GA in response)) {
+                    return; //여기에 예외처리
+                }
 
-            data = response.LOCALDATA_072404_GA;
-            if (data && data.RESULT.CODE === INFO_000) {
-                const rows = data.row;
-                for (let i = 0; i < rows.length; i++) {
+                data = response.LOCALDATA_072404_GA;
+                if (data && data.RESULT.CODE === INFO_000) {
+                    const rows = data.row;
+                    for (let i = 0; i < rows.length; i++) {
 
-                    const row = rows[i];
-                    console.log(row);
+                        const row = rows[i];
+                        console.log(row);
 
-                    if (row.TRDSTATENM === CLOSED) {
-                        continue;
-                    }
-                    let x = row.X;
-                    let y = row.Y;
+                        if (row.TRDSTATENM === CLOSED) {
+                            continue;
+                        }
+                        let x = row.X;
+                        let y = row.Y;
 
-                    if(x && y) {
-                        const markerPosition = new kakao.maps.LatLng(Number(x), Number(y));
-                        const marker = new kakao.maps.Marker({
-                            position: markerPosition
-                        });
-                        marker.setMap(map);
-                    }
+                        if (x && y) {
+                            const markerPosition = new kakao.maps.LatLng(Number(x), Number(y));
+                            const marker = new kakao.maps.Marker({
+                                position: markerPosition
+                            });
+                            marker.setMap(map);
+                        }
 
-                    const template = `<div class="col mb-5">
+                        const template = `<div class="col mb-5">
                                         <div class="card h-100">
                                             <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
                                             <div class="card-body p-4">
@@ -135,12 +138,13 @@
                                             </div>
                                         </div>
                                     </div>`
-                    const restaurants = document.querySelector("#restaurants");
-                    restaurants.insertAdjacentHTML('afterend', template);
+                        const restaurants = document.querySelector("#restaurants");
+                        restaurants.insertAdjacentHTML('afterend', template);
+                    }
                 }
-            }
-        })
-        .catch(error => console.error('Error:', error));
+            })
+            .catch(error => console.error('Error:', error));
+    }
 </script>
 </body>
 </html>
