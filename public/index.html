@@ -71,7 +71,7 @@
         navigator.geolocation.getCurrentPosition((position) => {
             const container = document.getElementById('map');
             const options = {
-                center: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude), //지도의 중심좌표.
+                center: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude),
                 level: 3 //지도의 레벨(확대, 축소 정도)
             };
 
