@@ -87,17 +87,22 @@
             console.log(response);
             let data;
 
-            if (!(LOCAL_DATA_072404_GA in response)){
-               return; //여기에 예외처리
+            if (!(LOCAL_DATA_072404_GA in response)) {
+                return; //여기에 예외처리
             }
 
             data = response.LOCALDATA_072404_GA;
-            if(data && data.RESULT.CODE === INFO_000){
+            if (data && data.RESULT.CODE === INFO_000) {
                 const rows = data.row;
                 for (let i = 0; i < rows.length; i++) {
 
                     const row = rows[i];
                     console.log(row);
+
+                    if (row.TRDSTATENM === CLOSED) {
+                        continue;
+                    }
+
                     const template = `<div class="col mb-5">
                                         <div class="card h-100">
                                             <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
@@ -121,13 +126,6 @@
                                     </div>`
                     const restaurants = document.querySelector("#restaurants");
                     restaurants.insertAdjacentHTML('afterend', template);
-
-
-                   if (row.TRDSTATENM === CLOSED) {
-                       continue;
-                   }
-
-
                 }
             }
         })
