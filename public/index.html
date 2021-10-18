@@ -64,19 +64,21 @@
 <script src="js/const.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey="></script>
 <script>
-    // if (!navigator.geolocation) {
-    //     alert('Geolocation is not supported by your browser');
-    // } else {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-    //         const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-    //         const options = { //지도를 생성할 때 필요한 기본 옵션
-    //             center: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude), //지도의 중심좌표.
-    //             level: 3 //지도의 레벨(확대, 축소 정도)
-    //         };
-    //
-    //         const map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-    //     });
-    // }
+    let map
+
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+    } else {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+            const options = { //지도를 생성할 때 필요한 기본 옵션
+                center: new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude), //지도의 중심좌표.
+                level: 3 //지도의 레벨(확대, 축소 정도)
+            };
+
+            map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+        });
+    }
 
     const url = 'http://openapi.seoul.go.kr:8088/sample/json/LOCALDATA_072404_GA/1/5/';
 
@@ -99,8 +101,18 @@
                     const row = rows[i];
                     console.log(row);
 
-                    if (row.TRDSTATENM === CLOSED) {
-                        continue;
+                    // if (row.TRDSTATENM === CLOSED) {
+                    //     continue;
+                    // }
+                    let x = row.X;
+                    let y = row.Y;
+
+                    if(x && y) {
+                        const markerPosition = new kakao.maps.LatLng(Number(x), Number(y));
+                        const marker = new kakao.maps.Marker({
+                            position: markerPosition
+                        });
+                        marker.setMap(map);
                     }
 
                     const template = `<div class="col mb-5">
